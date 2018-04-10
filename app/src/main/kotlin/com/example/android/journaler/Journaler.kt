@@ -1,5 +1,17 @@
 package com.example.android.journaler
 
+import android.app.Application
+import android.content.Context
 
-class Journaler {
+
+class Journaler : Application(){
+
+    companion object {
+        var ctx: Context? = null
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        ctx = applicationContext
+    }
 }
