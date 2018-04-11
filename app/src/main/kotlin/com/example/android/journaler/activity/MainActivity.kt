@@ -1,10 +1,12 @@
 package com.example.android.journaler.activity
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
 import com.example.android.journaler.R
 import com.example.android.journaler.fragment.ItemsFragment
-import com.example.android.journaler.fragment.ManualFragment
-import kotlinx.android.synthetic.main.activity_header.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : BaseActivity() {
@@ -15,20 +17,23 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fragment = ItemsFragment()
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragment_container, fragment)
-            .commit()
-        filter_menu.setText(R.string.help)
-        filter_menu.setOnClickListener {
-            val manualFragment = ManualFragment()
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, manualFragment)
-                .addToBackStack("User manual")
-                .commit()
+
+        pager.adapter = ViewPagerAdapter(supportFragmentManager)
+    }
+
+    private class ViewPagerAdapter(manager: FragmentManager) :
+        FragmentStatePagerAdapter(manager) {
+
+        override fun getItem(position: Int): Fragment {
+            return ItemsFragment()
+        }
+
+        override fun getCount(): Int {
+            return 5
         }
     }
 
 }
+
+// ViewPager makes it possible to swipe between different fragments as a
+// part of the fragment collection
