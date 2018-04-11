@@ -1,11 +1,12 @@
 package com.example.android.journaler.activity
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-abstract class BaseActivity : FragmentActivity(){
+abstract class BaseActivity : AppCompatActivity(){
 
     protected abstract val tag: String
     protected abstract fun getLayout(): Int
@@ -14,6 +15,7 @@ abstract class BaseActivity : FragmentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
+        setSupportActionBar(toolbar)
         Log.v(tag, "[ ON CREATE ]")
     }
 
