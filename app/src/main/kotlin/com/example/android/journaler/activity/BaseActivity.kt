@@ -3,6 +3,9 @@ package com.example.android.journaler.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import com.example.android.journaler.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -17,6 +20,28 @@ abstract class BaseActivity : AppCompatActivity(){
         setContentView(getLayout())
         setSupportActionBar(toolbar)
         Log.v(tag, "[ ON CREATE ]")
+    }
+
+    // Assigns a menu to the application bar
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+
+        return true
+    }
+
+    // Connects actions to menu items
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.drawing_menu -> {
+                Log.v(tag, "Main menu.")
+                return true
+            }
+            R.id.options_menu -> {
+                Log.v(tag, "Options menu.")
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
