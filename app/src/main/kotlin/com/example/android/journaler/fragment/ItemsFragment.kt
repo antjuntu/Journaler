@@ -124,6 +124,15 @@ class ItemsFragment : BaseFragment() {
         set.play(animation1).with(animation2).before(animation3)
         set.start()
     }
+
+    override fun onResume() {
+        super.onResume()
+        val btn = view?.findViewById<FloatingActionButton>(R.id.new_item)
+        btn?.let {
+            animate(btn, false)
+        }
+        
+    }
 }
 
 
