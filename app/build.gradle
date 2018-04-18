@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.example.android.journaler"
+        applicationId "com.example.android.com.journaler"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
