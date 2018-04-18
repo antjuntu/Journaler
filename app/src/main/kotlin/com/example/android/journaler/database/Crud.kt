@@ -1,5 +1,7 @@
 package com.example.android.journaler.database
 
+import kotlin.reflect.KClass
+
 
 interface Crud<T> where T : DbModel {
 
@@ -8,50 +10,23 @@ interface Crud<T> where T : DbModel {
         val BROADCAST_EXTRAS_KEY_CRUD_OPERATION_RESULT = "crud_result"
     }
 
-    /**
-     * Returns the ID of inserted item.
-     */
-    fun insert(what: T): Long
+    fun insert(what: T): Boolean
 
-    /**
-     * Returns the list of inserted IDs.
-     */
-    fun insert(what: Collection<T>): List<Long>
+    fun insert(what: Collection<T>): Boolean
 
-    /**
-     * Returns the number of updated items.
-     */
-    fun update(what: T): Int
+    fun update(what: T): Boolean
 
-    /**
-     * Returns the number of updated items.
-     */
-    fun update(what: Collection<T>): Int
+    fun update(what: Collection<T>): Boolean
 
-    /**
-     * Returns the number of deleted items.
-     */
-    fun delete(what: T): Int
+    fun delete(what: T) : Boolean
 
-    /**
-     * Returns the number of deleted items.
-     */
-    fun delete(what: Collection<T>): Int
+    fun delete(what: Collection<T>) : Boolean
 
-    /**
-     * Returns the list of items.
-     */
-    fun select(args: Pair<String, String>): List<T>
+    fun select(args: Pair<String, String>, clazz: KClass<DbModel>): List<T>
 
-    /**
-     * Returns the list of items.
-     */
-    fun select(args: Collection<Pair<String, String>>): List<T>
+    fun select(args: Collection<Pair<String, String>>, clazz: KClass<DbModel>): List<T>
 
-    /**
-     * Returns the list of items.
-     */
-    fun selectAll(): List<T>
+
 }
 
 

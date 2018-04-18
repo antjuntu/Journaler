@@ -1,6 +1,7 @@
 package com.example.android.journaler.navigation
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import kotlinx.android.synthetic.main.adapter_navigation_drawer.view.*
 
 class NavigationDrawerAdapter(val ctx: Context, val items: List<NavigationDrawerItem>) : BaseAdapter() {
 
+    private val tag = "Nav. drw. adptr."
     override fun getView(position: Int, v: View?, parent: ViewGroup?): View {
         val inflater = LayoutInflater.from(ctx)
         var view = v
@@ -24,7 +26,10 @@ class NavigationDrawerAdapter(val ctx: Context, val items: List<NavigationDrawer
         val title = view.drawer_item
         title.text = item.title
         title.setOnClickListener {
-            item.onClick.run()
+            if (item.enabled)
+                item.onClick.run()
+            else
+                Log.w(tag, "Item is disabled: $item")
         }
 
         return view
