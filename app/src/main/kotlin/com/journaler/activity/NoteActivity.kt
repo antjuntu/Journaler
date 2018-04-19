@@ -1,5 +1,9 @@
 package com.journaler.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.location.Location
 import android.location.LocationListener
 import android.os.Bundle
@@ -11,12 +15,12 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import com.journaler.R
+import com.journaler.database.Crud
 import com.journaler.location.LocationProvider
-import com.journaler.model.Note
-import kotlinx.android.synthetic.main.activity_note.*
-import android.content.Intent
 import com.journaler.model.MODE
+import com.journaler.model.Note
 import com.journaler.service.DatabaseService
+import kotlinx.android.synthetic.main.activity_note.*
 
 
 class NoteActivity : ItemActivity() {
@@ -62,6 +66,15 @@ class NoteActivity : ItemActivity() {
         override fun onProviderDisabled(p0: String?) {}
     }
 
+    private val crudOperationListener = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.let {
+                val crudResult = intent.getIntExtra(Crud.BROADCAST_EXTRAS_KEY_CRUD_OPERATION_RESULT, 0)
+                sendMessage(crudResult == 1)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         handler = object : Handler(Looper.getMainLooper()) {
@@ -81,6 +94,14 @@ class NoteActivity : ItemActivity() {
         }
         note_title.addTextChangedListener(textWatcher)
         note_content.addTextChangedListener(textWatcher)
+
+        val intentFilter = IntentFilter(Crud.BROADCAST_ACTION)
+        registerReceiver(crudOperationListener, intentFilter)
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(crudOperationListener)
+        super.onDestroy()
     }
 
     private fun updateNote() {
